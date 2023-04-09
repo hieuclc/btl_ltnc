@@ -1,5 +1,5 @@
 # Bài tập lớn Lập trình nâng cao (INT 2215 23)
-# Mario
+## Mario
 
 Thông tin sinh viên:
   - Họ và tên: Ngô Duy Hiếu
