@@ -26,7 +26,6 @@ void Enemy::Goombas(){
 Enemy::~Enemy(){};
 
 void Enemy::Move(){
-    SDL_Delay(10);
     xpos += xvel;
     i += 0.05;
     if (i >= 2) i = 0;
@@ -76,11 +75,10 @@ bool Enemy::CheckX(){
 }
 void Enemy::Physics(){
     ypos += speedY;
-    int x1, x2, y1, y2;
+    int x1, x2, y2;
     x1 = xpos / 32;
     x2 = (xpos + destRect.w - 1) / 32;
 
-    y1 = ypos / 32;
     y2 = (ypos + destRect.h - 1) / 32;
     if (Map::level_1[y2][x1] != 0 || Map::level_1[y2][x2] != 0) {
         ypos -= speedY;
@@ -89,6 +87,10 @@ void Enemy::Physics(){
 
 void Enemy::SetMap(const int& x){
     x_map = x;
+}
+
+int Enemy::GetX(){
+    return xpos;
 }
 
 

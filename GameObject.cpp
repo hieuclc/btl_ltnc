@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include "Map.h"
 #include <iostream>
+int temp = 0;
 GameObject::GameObject(const char* file, int x, int y){
     objectTexture = TextureManager::LoadTexture(file);
     xpos = x;
@@ -9,16 +10,22 @@ GameObject::GameObject(const char* file, int x, int y){
     xvel = 0;
     yvel = 0;
     srcRect.h = 32;
-    srcRect.w = 24;
+    srcRect.w = 24 * 5;
     srcRect.x = 0;
     srcRect.y = 0;
+    destRect.x = xpos;
+    destRect.y = ypos;
+    destRect.w = 24;
+    destRect.h = 32;
     x_map = 0;
     y_map = 0;
     onGround = false;
-    space = -1;
+    left = space = -1;
+    right = 0;
+    frame = 0;
+
 }
 void GameObject::Update(){
-
     destRect.h = srcRect.h;
     destRect.w = 24;
     destRect.x = xpos;
@@ -26,12 +33,12 @@ void GameObject::Update(){
 };
 
 void GameObject::Render(){
-    //GameObject::setCamera(destRect);
-    //xp = xpos;
+
     destRect.x = xpos - x_map;
     destRect.y = ypos - y_map;
-    SDL_RenderCopy(Game::renderer, objectTexture, &srcRect, &destRect);
-
+    //SDL_RenderCopy(Game::renderer, objectTexture, &srcRect, &destRect);
+    if (right >=0) SDL_RenderCopy(Game::renderer, objectTexture, &marioRect[_frame], &destRect);
+    if (left >=0) SDL_RenderCopy(Game::renderer, fobjectTexture, &marioRect[_frame], &destRect);
 }
 
 void GameObject::InputHandle(SDL_Event &e){
@@ -43,11 +50,11 @@ void GameObject::InputHandle(SDL_Event &e){
             case SDLK_DOWN:
                 yvel += speedY; break;
             case SDLK_LEFT:
-                xvel -= speedX; break;
+                xvel -= speedX; left = 1; right = -1; break;
             case SDLK_RIGHT:
-                xvel += speedX; break;
+                xvel += speedX; left = -1; right = 1; break;
             case SDLK_SPACE:
-                if (onGround) space = 8; break;// yvel -= speedY * 8; break;
+                if (onGround) space = 16; break;// yvel -= speedY * 8; break;
         }
     }
     else if (e.type == SDL_KEYUP){
@@ -57,9 +64,9 @@ void GameObject::InputHandle(SDL_Event &e){
             case SDLK_DOWN:
                 yvel -= speedY; break;
             case SDLK_LEFT:
-                xvel += speedX; break;
+                xvel += speedX; left = 0; break;
             case SDLK_RIGHT:
-                xvel -= speedX; break;
+                xvel -= speedX; right = 0; break;
             case SDLK_SPACE:
                 //yvel += speedY * 8;
                 break;
@@ -73,13 +80,11 @@ void GameObject::InputHandle(SDL_Event &e){
 void GameObject::Move(){
     xpos += xvel;
     if (xpos < 0 || xpos + destRect.w > 7120 || CheckX()) xpos -= xvel;
-    ypos += yvel;
-    //if (check) yvel -= speedY * 6;
-    //if (yvel == speedY * 12) ypos -= yvel / 2;
+
     if (ypos < 0 || ypos + destRect.h > Game::SCREEN_HEIGHT || CheckY()) {
         ypos -= yvel;
     }
-
+    std::cout << xpos << " " << ypos << std::endl;
 
 }
 SDL_Rect GameObject::GetRect(){
@@ -87,66 +92,25 @@ SDL_Rect GameObject::GetRect(){
 }
 
 void GameObject::LoadAnimation(){
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         marioRect[i].x = i * 24;
         marioRect[i].y = 0;
         marioRect[i].w = 24;
         marioRect[i].h = 32;
     }
 
-
-
-    DefaultTex = TextureManager::LoadTexture("assets/mario.png");
-    Tex[0] = TextureManager::LoadTexture("assets/mario_move0.png");
-    Tex[1] = TextureManager::LoadTexture("assets/mario_move0.png");
-    Tex[2] = TextureManager::LoadTexture("assets/mario_move1.png");
-    Tex[3] = TextureManager::LoadTexture("assets/mario_move1.png");
-    Tex[4] = TextureManager::LoadTexture("assets/mario_move2.png");
-    Tex[5] = TextureManager::LoadTexture("assets/mario_move2.png");
-
-    fDefaultTex = TextureManager::LoadTexture("assets/fmario.png");
-    fTex[0] = TextureManager::LoadTexture("assets/fmario_move0.png");
-    fTex[1] = TextureManager::LoadTexture("assets/fmario_move0.png");
-    fTex[2] = TextureManager::LoadTexture("assets/fmario_move1.png");
-    fTex[3] = TextureManager::LoadTexture("assets/fmario_move1.png");
-    fTex[4] = TextureManager::LoadTexture("assets/fmario_move2.png");
-    fTex[5] = TextureManager::LoadTexture("assets/fmario_move2.png");
-
-    JumpTex = TextureManager::LoadTexture("assets/mario_jump.png");
-    fJumpTex = TextureManager::LoadTexture("assets/fmario_jump.png");
+    fobjectTexture = TextureManager::LoadTexture("assets/fmarioall.png");
 }
-void GameObject::ApplyAnimation(SDL_Event &e){
-    if (e.type == SDL_KEYDOWN){
+void GameObject::ApplyAnimation(){
+    if ((right == 1 || left == 1) && onGround) {
+        if (frame >= 4.0) frame = 0;
+        frame += 0.25;
 
-        switch (e.key.keysym.sym) {
-            case SDLK_RIGHT: {
-                _frame = (_frame + 1) % 6;
-                objectTexture = Tex[_frame];
-                //srcRect = marioRect[_frame];
-                //std::cout << _frame << std::endl;
-                break;
-            }
-            case SDLK_LEFT: {
-                _frame = (_frame + 1) % 6;
-                objectTexture = fTex[_frame];
-                break;
-            }
-        }
+        _frame = (int(frame) + 1) % 4;
+
     }
-    else if (e.type == SDL_KEYUP) {
-        switch (e.key.keysym.sym) {
-            case SDLK_RIGHT: {
-                objectTexture = DefaultTex;
-                break;
-            }
-            case SDLK_LEFT: {
-                objectTexture = fDefaultTex;
-                break;
-            }
-        }
-        _frame = 0;
-    }
-    //std::cout << "frame = " << _frame << std::endl;
+    else if (onGround) {_frame = 0; frame = 0;}
+    else if (!onGround) _frame = 4;
 }
 
 
@@ -196,11 +160,15 @@ bool GameObject::CheckY(){
 
 
 void GameObject::Physics(){
-    ypos += speedY * 2;
     if (space > 0) {
-        ypos -= 32;
+        ypos -= 16;
+        if (ypos < 0) {
+            ypos += 32;
+            space = 0;
+        }
         space --;
     }
+    ypos += speedY * 2;
     int x1, x2, y1, y2;
     x1 = xpos / 32;
     x2 = (xpos + destRect.w - 1) / 32;
@@ -215,7 +183,7 @@ void GameObject::Physics(){
         else onGround = false;
     {
         if (Map::level_1[y1][x1] !=0 || Map::level_1[y1][x2] != 0) {
-            ypos += 32;
+            ypos += 16;
             space = 0;
         }
     }

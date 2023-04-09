@@ -84,7 +84,7 @@ SDL_Rect Map::GetBox(int i, int j){
     return ans;
 }
 
-void Map::SetMap(const int &x, const int &y){
+void Map::SetMap(const int &x){
     x_start = x;
-    y_start = y;
+    y_start = 0;
 };

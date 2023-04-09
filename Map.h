@@ -9,7 +9,7 @@ public:
     void DrawMap();
     static int level_1[15][224];
     static SDL_Rect GetBox(int i, int j);
-    void SetMap(const int &x, const int &y);
+    void SetMap(const int &x);
 private:
     SDL_Rect src, dest;
     SDL_Texture* brick;

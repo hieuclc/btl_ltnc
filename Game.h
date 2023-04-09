@@ -20,7 +20,6 @@ public:
     void update();
     void render();
     void clean();
-    void inputHandle(SDL_Event e);
     bool running(){
         return isRunning;
     };

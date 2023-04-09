@@ -1,16 +1,15 @@
 #include "TextureManager.h"
 SDL_Texture* TextureManager::LoadTexture(const char* file){
-    SDL_Surface* tempSurface = IMG_Load(file);
-    SDL_Texture* tex = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
-    SDL_FreeSurface(tempSurface);
+//    SDL_Surface* tempSurface = IMG_Load(file);
+//    SDL_Texture* tex = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
+//    SDL_FreeSurface(tempSurface);
+    SDL_Texture* tex = IMG_LoadTexture(Game::renderer, file);
+
     return tex;
 }
 
-SDL_Texture* TextureManager::LoadFlippedTexture(SDL_Texture* tex) {
-    SDL_RenderCopyEx(Game::renderer, tex, NULL, NULL, 90, NULL, SDL_FLIP_VERTICAL);
-    return tex;
-};
-void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest){
+
+void TextureManager::Draw(SDL_Texture* tex, SDL_Rect& src, SDL_Rect& dest){
     SDL_RenderCopy(Game::renderer, tex, &src, &dest);
 };
 
