@@ -6,12 +6,12 @@
 #include "Background.h"
 #include <iostream>
 GameObject* player;
-//Enemy* enemy;
+Enemy* enemy;
 Map* map;
 SDL_Renderer* Game::renderer = nullptr;
 int count = 0;
 SDL_Rect srcR, destR;
-Background* background;
+//Background* background;
 
 Game::Game(){
 
@@ -29,10 +29,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     else isRunning = false;
     player = new GameObject("assets/marioall.png",96, 384);
     map = new Map;
-    //enemy = new Enemy("assets/goombas.png",608,384);
-    //enemy->Goombas();
-    background = new Background("assets/11.bmp");
-    background->LoadBackground();
+    enemy = new Enemy("assets/goombas.png",608,384);
+    enemy->Goombas();
+    //background = new Background("assets/11.bmp");
+    //background->LoadBackground();
     player->LoadAnimation();
 
 };
@@ -51,23 +51,23 @@ void Game::handleEvents(){
 };
 void Game::update(){
     //player->Update();
-    //enemy->Update();
+    enemy->Update();
 };
 void Game::render(){
     SDL_RenderClear(renderer);
     //background->Render();
     player->Physics();
-    //enemy->Move();
+    enemy->Move();
 
     player->Move();
     player->CenterMapIndex();
-    //enemy->Render();
+    enemy->Render();
     player->Render();
 
     //int a = 0;
     map->DrawMap();
     map->SetMap(player->x_map);
-    //enemy->SetMap(player->x_map);
+    enemy->SetMap(player->x_map);
 
     SDL_RenderPresent(renderer);
 

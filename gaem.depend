@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1681022446 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\main.cpp
+1681042064 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\main.cpp
 	<iostream>
 	<stdio.h>
 	<SDL.h>
@@ -57,7 +57,7 @@
 	<SDL_image.h>
 	<stdio.h>
 
-1681025487 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\game.cpp
+1681037013 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\game.cpp
 	"Game.h"
 	"TextureManager.h"
 	"GameObject.h"
@@ -66,7 +66,7 @@
 	"Background.h"
 	<iostream>
 
-1681025321 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\texturemanager.cpp
+1681036858 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\texturemanager.cpp
 	"TextureManager.h"
 
 1681025329 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\texturemanager.h
@@ -74,25 +74,25 @@
 	"GameObject.h"
 	"Enemy.h"
 
-1681025933 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\gameobject.h
+1681038405 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\gameobject.h
 	"Game.h"
 	"Map.h"
 
-1681025934 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\gameobject.cpp
+1681042029 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\gameobject.cpp
 	"GameObject.h"
 	"TextureManager.h"
 	"Map.h"
 	<iostream>
 
-1681025826 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\map.h
+1681034560 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\map.h
 	"Game.h"
 
-1681024628 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\map.cpp
+1681042064 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\map.cpp
 	"Map.h"
 	"TextureManager.h"
 	<iostream>
 
-1681022732 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\enemy.cpp
+1681035384 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\enemy.cpp
 	"Enemy.h"
 	"TextureManager.h"
 	"GameObject.h"

@@ -33,8 +33,8 @@ private:
     int gravity = 10;
 
     bool onGround, jumped = false;
-    SDL_Texture* objectTexture;
-    SDL_Texture* fobjectTexture;
+    SDL_Texture* objectTexture = NULL;
+    SDL_Texture* fobjectTexture = NULL;
 
     SDL_Rect srcRect, destRect, mapRect;
     SDL_Rect marioRect[4];

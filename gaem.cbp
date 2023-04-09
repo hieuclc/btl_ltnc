@@ -43,8 +43,6 @@
 		<Unit filename="Map.h" />
 		<Unit filename="Music.cpp" />
 		<Unit filename="Music.h" />
-		<Unit filename="Player.cpp" />
-		<Unit filename="Player.h" />
 		<Unit filename="TextureManager.cpp" />
 		<Unit filename="TextureManager.h" />
 		<Unit filename="main.cpp" />

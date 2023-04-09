@@ -5,9 +5,9 @@ class Map {
 public:
     Map();
     ~Map();
-    void LoadMap(int map[15][224]);
+    void LoadMap(int map[16][224]);
     void DrawMap();
-    static int level_1[15][224];
+    static int level_1[16][224];
     static SDL_Rect GetBox(int i, int j);
     void SetMap(const int &x);
 private:
@@ -18,7 +18,7 @@ private:
     SDL_Texture* pipe_left_top;
     SDL_Texture* pipe_right_bot;
     SDL_Texture* pipe_right_top;
-    SDL_Texture* obstacle[20];
+    SDL_Texture* obstacle[18];
     int map[16][224];
     int xmap, ymap;
     int x_start = 0, y_start = 0;

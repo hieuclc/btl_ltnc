@@ -37,8 +37,8 @@ void GameObject::Render(){
     destRect.x = xpos - x_map;
     destRect.y = ypos - y_map;
     //SDL_RenderCopy(Game::renderer, objectTexture, &srcRect, &destRect);
-    if (right >=0) SDL_RenderCopy(Game::renderer, objectTexture, &marioRect[_frame], &destRect);
-    if (left >=0) SDL_RenderCopy(Game::renderer, fobjectTexture, &marioRect[_frame], &destRect);
+    if (right >=0) if (xvel >=0) SDL_RenderCopy(Game::renderer, objectTexture, &marioRect[_frame], &destRect);
+    if (left >=0) if (xvel <= 0) SDL_RenderCopy(Game::renderer, fobjectTexture, &marioRect[_frame], &destRect);
 }
 
 void GameObject::InputHandle(SDL_Event &e){
@@ -64,9 +64,9 @@ void GameObject::InputHandle(SDL_Event &e){
             case SDLK_DOWN:
                 yvel -= speedY; break;
             case SDLK_LEFT:
-                xvel += speedX; left = 0; break;
+                xvel += speedX; break;// left = 0; right = -1; break;
             case SDLK_RIGHT:
-                xvel -= speedX; right = 0; break;
+                xvel -= speedX; break;// right = 0; left = -1; break;
             case SDLK_SPACE:
                 //yvel += speedY * 8;
                 break;
@@ -84,7 +84,6 @@ void GameObject::Move(){
     if (ypos < 0 || ypos + destRect.h > Game::SCREEN_HEIGHT || CheckY()) {
         ypos -= yvel;
     }
-    std::cout << xpos << " " << ypos << std::endl;
 
 }
 SDL_Rect GameObject::GetRect(){
@@ -102,12 +101,11 @@ void GameObject::LoadAnimation(){
     fobjectTexture = TextureManager::LoadTexture("assets/fmarioall.png");
 }
 void GameObject::ApplyAnimation(){
-    if ((right == 1 || left == 1) && onGround) {
+    if (xvel != 0 && onGround) {
         if (frame >= 4.0) frame = 0;
         frame += 0.25;
 
         _frame = (int(frame) + 1) % 4;
-
     }
     else if (onGround) {_frame = 0; frame = 0;}
     else if (!onGround) _frame = 4;
