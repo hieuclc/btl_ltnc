@@ -1,0 +1,126 @@
+# depslib dependency file v1.0
+1681011286 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\main.cpp
+	<iostream>
+	<stdio.h>
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	"Game.h"
+	"Music.h"
+
+1678289198 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\sdl_utils.h
+	<stdio.h>
+	<SDL.h>
+
+1678292156 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\sdl_utils.cpp
+	<iostream>
+	<SDL.h>
+	<stdio.h>
+
+1678290299 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\music.cpp
+	<iostream>
+	<stdio.h>
+	<SDL.h>
+	<SDL_mixer.h>
+
+1678290299 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\music.h
+	<iostream>
+	<stdio.h>
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+
+1679297454 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\sdl_init.h
+	<stdio.h>
+	<SDL.h>
+
+1679303697 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\sdl_init.cpp
+	<iostream>
+	<SDL.h>
+	<stdio.h>
+	<SDL_image.h>
+	"LTexture.h"
+
+1679297299 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\ltexture.h
+	<SDL.h>
+	<string.h>
+	<iostream>
+	<stdio.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+
+1679297325 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\ltexture.cpp
+	"LTexture.h"
+
+1680146226 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\game.h
+	<SDL.h>
+	<SDL_image.h>
+	<stdio.h>
+
+1681011458 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\game.cpp
+	"Game.h"
+	"TextureManager.h"
+	"GameObject.h"
+	"Map.h"
+	"Enemy.h"
+	"Background.h"
+	<iostream>
+
+1680759633 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\texturemanager.cpp
+	"TextureManager.h"
+
+1680428520 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\texturemanager.h
+	"Game.h"
+	"GameObject.h"
+	"Enemy.h"
+
+1681008204 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\gameobject.h
+	"Game.h"
+	"Map.h"
+
+1681011484 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\gameobject.cpp
+	"GameObject.h"
+	"TextureManager.h"
+	"Map.h"
+	<iostream>
+
+1680919246 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\map.h
+	"Game.h"
+
+1681011223 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\map.cpp
+	"Map.h"
+	"TextureManager.h"
+	<iostream>
+
+1681011480 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\enemy.cpp
+	"Enemy.h"
+	"TextureManager.h"
+	"GameObject.h"
+	<iostream>
+
+1681010976 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\enemy.h
+	"Game.h"
+	"GameObject.h"
+
+1680918814 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\background.cpp
+	"Background.h"
+	"TextureManager.h"
+
+1680330044 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\background.h
+	"Game.h"
+	"GameObject.h"
+
+1680347220 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\player.h
+	"GameObject.h"
+
+1680347427 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\player.cpp
+	"Player.h"
+	"TextureManager.h"
+	<iostream>
+
+1680950651 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\timer.cpp
+	"Timer.h"
+
+1680950663 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\timer.h
+	"Game.h"
+
