@@ -22,6 +22,7 @@ private:
     int _frame = 0;
     int xvel = 0, yvel = 0;
     SDL_Rect srcRect, destRect;
-    SDL_Rect goombas[11];
-    SDL_Texture* enemyTexture;
+    SDL_Rect goombas[3];
+    //std::vector<SDL_Texture*> enemyTexture;
+
 };

@@ -4,10 +4,11 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
+#include <vector>
 class Game {
 private:
     bool isRunning;
-    SDL_Window* window;
+    SDL_Window* window = NULL;
 
 
 public:

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <SDL.h>
 #include <SDL_image.h>
-#include <SDL_mixer.h>
+//#include <SDL_mixer.h>
 #include "Game.h"
 #include "Music.h"
 using namespace std;
@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     while (game->running()) {
         frameStart = SDL_GetTicks();
 
-        SDL_Delay(1);
+        //SDL_Delay(1);
         game->handleEvents();
         game->update();
         game->render();
@@ -35,4 +35,5 @@ int main(int argc, char* argv[])
         }
     }
     game->clean();
+    return 0;
 }

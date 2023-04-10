@@ -21,24 +21,65 @@ int Map::level_1[16][224] = {
 
 };
 Map::Map(){
-    obstacle[0] = NULL;
-    obstacle[1] = TextureManager::LoadTexture("assets/ground.png");
-    obstacle[2] = TextureManager::LoadTexture("assets/brickred.png");
-    obstacle[3] = TextureManager::LoadTexture("assets/pipe_left_bot.png");
-    obstacle[4] = TextureManager::LoadTexture("assets/pipe_left_top.png");
-    obstacle[5] = TextureManager::LoadTexture("assets/pipe_right_bot.png");
-    obstacle[6] = TextureManager::LoadTexture("assets/pipe_right_top.png");
-    obstacle[7] = TextureManager::LoadTexture("assets/ground2.png");
-    obstacle[8] = TextureManager::LoadTexture("assets/end0.png");
-    obstacle[9] = TextureManager::LoadTexture("assets/end0_dot.png");
-    obstacle[10] = TextureManager::LoadTexture("assets/castle0_brick.bmp");
-    obstacle[11] = TextureManager::LoadTexture("assets/castle0_center_left.bmp");
-    obstacle[12] = TextureManager::LoadTexture("assets/castle0_center_right.bmp");
-    obstacle[13] = TextureManager::LoadTexture("assets/castle0_top0.bmp");
-    obstacle[14] = TextureManager::LoadTexture("assets/castle0_top1.png");
-    obstacle[15] = TextureManager::LoadTexture("assets/castle0_center_center.bmp");
-    obstacle[16] = TextureManager::LoadTexture("assets/castle0_center_center_top.bmp");
-    obstacle[17] = TextureManager::LoadTexture("assets/castle_flag.png");
+    //obstacle[0] = NULL;
+    //obstacle[1] = TextureManager::LoadTexture("assets/ground.png");
+    //obstacle[2] = TextureManager::LoadTexture("assets/brickred.png");
+    //obstacle[3] = TextureManager::LoadTexture("assets/pipe_left_bot.png");
+    //obstacle[4] = TextureManager::LoadTexture("assets/pipe_left_top.png");
+    //obstacle[5] = TextureManager::LoadTexture("assets/pipe_right_bot.png");
+    //obstacle[6] = TextureManager::LoadTexture("assets/pipe_right_top.png");
+    //obstacle[7] = TextureManager::LoadTexture("assets/ground2.png");
+    //obstacle[8] = TextureManager::LoadTexture("assets/end0.png");
+    //obstacle[9] = TextureManager::LoadTexture("assets/end0_dot.png");
+    //obstacle[10] = TextureManager::LoadTexture("assets/castle0_brick.bmp");
+    //obstacle[11] = TextureManager::LoadTexture("assets/castle0_center_left.bmp");
+    //obstacle[12] = TextureManager::LoadTexture("assets/castle0_center_right.bmp");
+    //obstacle[13] = TextureManager::LoadTexture("assets/castle0_top0.bmp");
+    //obstacle[14] = TextureManager::LoadTexture("assets/castle0_top1.png");
+    //obstacle[15] = TextureManager::LoadTexture("assets/castle0_center_center.bmp");
+    //obstacle[16] = TextureManager::LoadTexture("assets/castle0_center_center_top.bmp");
+    //obstacle[17] = TextureManager::LoadTexture("assets/castle_flag.png");
+    //obstacle[18] = NULL;
+
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/ground.png"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/brickred.png"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/pipe_left_bot.png"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/pipe_left_top.png"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/pipe_right_bot.png"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/pipe_right_top.png"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/ground2.png"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/end0.png"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/end0_dot.png"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/castle0_brick.bmp"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/castle0_center_left.bmp"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/castle0_center_right.bmp"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/castle0_top0.bmp"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/castle0_top1.png"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/castle0_center_center.bmp"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/castle0_center_center_top.bmp"));
+    //obstacleTex.push_back(TextureManager::LoadTexture("assets/castle_flag.png"));
+
+
+    files.push_back("assets/ground.png");
+    files.push_back("assets/brickred.png");
+    files.push_back("assets/pipe_left_bot.png");
+    files.push_back("assets/pipe_left_top.png");
+    files.push_back("assets/pipe_right_bot.png");
+    files.push_back("assets/pipe_right_top.png");
+    files.push_back("assets/ground2.png");
+    files.push_back("assets/end0.png");
+    files.push_back("assets/end0_dot.png");
+    files.push_back("assets/castle0_brick.bmp");
+    files.push_back("assets/castle0_center_left.bmp");
+    files.push_back("assets/castle0_center_right.bmp");
+    files.push_back("assets/castle0_top0.bmp");
+    files.push_back("assets/castle0_top1.png");
+    files.push_back("assets/castle0_center_center.bmp");
+    files.push_back("assets/castle0_center_center_top.bmp");
+    files.push_back("assets/castle_flag.png");
+
+
+
 
     LoadMap(level_1);
 
@@ -64,26 +105,34 @@ void Map::DrawMap(){
     if (x1 == 0) x2 = x1 + Game::SCREEN_WIDTH;
     else x2 = x1 + Game::SCREEN_WIDTH + 32;
 
-
     for (int i = 0; i < 15 * 32; i += 32) {
         xmap = x_start / 32;
         for (int j = x1; j < x2; j += 32){
             type = map[ymap][xmap];
             dest.x = j;
             dest.y = i;
-            TextureManager::Draw(obstacle[type], src, dest);
-            xmap++;
+            if (type != 0) {
+                SDL_Texture* obstacle = TextureManager::LoadTexture(files[type-1]);
+                TextureManager::Draw(obstacle, src, dest);
+                SDL_DestroyTexture(obstacle);
+                // SDL_Texture* temp1 = obstacleTex[type - 1];
+                // TextureManager::Draw(temp1, src, dest);
 
+                // SDL_DestroyTexture(temp1);
+            }
+            xmap++;
         }
         ymap++;
     }
 }
 
+
+
 SDL_Rect Map::GetBox(int i, int j){
     SDL_Rect ans;
-    ans.h = ans.w = 32;
-    ans.y = i * 32;
-    ans.x = j * 32;
+    ans.h = ans.w = 64;
+    ans.y = i * 64;
+    ans.x = j * 64;
     return ans;
 }
 

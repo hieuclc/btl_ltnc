@@ -5,8 +5,8 @@
 #include "Enemy.h"
 #include "Background.h"
 #include <iostream>
-GameObject* player;
-Enemy* enemy;
+GameObject* player = NULL;
+Enemy* enemy = NULL;
 Map* map;
 SDL_Renderer* Game::renderer = nullptr;
 int count = 0;
@@ -28,7 +28,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     }
     else isRunning = false;
     player = new GameObject("assets/marioall.png",96, 384);
-    map = new Map;
+    map = new Map();
     enemy = new Enemy("assets/goombas.png",608,384);
     enemy->Goombas();
     //background = new Background("assets/11.bmp");
@@ -44,13 +44,12 @@ void Game::handleEvents(){
     else {
 
         player->InputHandle(e);
-        player->ApplyAnimation();
 
     }
 
 };
 void Game::update(){
-    //player->Update();
+    player->Update();
     enemy->Update();
 };
 void Game::render(){
@@ -58,13 +57,14 @@ void Game::render(){
     //background->Render();
     player->Physics();
     enemy->Move();
+    player->ApplyAnimation();
 
     player->Move();
     player->CenterMapIndex();
     enemy->Render();
     player->Render();
 
-    //int a = 0;
+    int a = 0;
     map->DrawMap();
     map->SetMap(player->x_map);
     enemy->SetMap(player->x_map);
@@ -74,8 +74,12 @@ void Game::render(){
 };
 
 void Game::clean(){
+    delete player;
+    delete map;
+    delete enemy;
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
+
 };
 bool running();

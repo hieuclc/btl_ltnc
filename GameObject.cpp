@@ -1,10 +1,10 @@
 #include "GameObject.h"
 #include "TextureManager.h"
 #include "Map.h"
-#include <iostream>
+
 int temp = 0;
 GameObject::GameObject(const char* file, int x, int y){
-    objectTexture = TextureManager::LoadTexture(file);
+    //objectTexture.push_back(TextureManager::LoadTexture(file));
     xpos = x;
     ypos = y;
     xvel = 0;
@@ -23,22 +23,44 @@ GameObject::GameObject(const char* file, int x, int y){
     left = space = -1;
     right = 0;
     frame = 0;
+    //objectTexture.push_back(TextureManager::LoadTexture("assets/fmarioall.png"));
 
 }
+
+GameObject::~GameObject(){
+
+};
+
 void GameObject::Update(){
     destRect.h = srcRect.h;
     destRect.w = 24;
-    destRect.x = xpos;
-    destRect.y = ypos;
+//    destRect.x = xpos;
+//    destRect.y = ypos;
+
+    destRect.x = xpos - x_map;
+    destRect.y = ypos - y_map;
 };
 
 void GameObject::Render(){
 
-    destRect.x = xpos - x_map;
-    destRect.y = ypos - y_map;
-    //SDL_RenderCopy(Game::renderer, objectTexture, &srcRect, &destRect);
-    if (right >=0) if (xvel >=0) SDL_RenderCopy(Game::renderer, objectTexture, &marioRect[_frame], &destRect);
-    if (left >=0) if (xvel <= 0) SDL_RenderCopy(Game::renderer, fobjectTexture, &marioRect[_frame], &destRect);
+
+    SDL_Texture* object = TextureManager::LoadTexture("assets/marioall.png");
+    //SDL_RenderCopy(Game::renderer, object, &marioRect[_frame], &destRect);
+    SDL_Texture* fobject = TextureManager::LoadTexture("assets/fmarioall.png");
+
+    if (right >=0) if (xvel >=0) SDL_RenderCopy(Game::renderer, object, &marioRect[_frame], &destRect);
+    if (left >=0) if (xvel <= 0) SDL_RenderCopy(Game::renderer, fobject, &marioRect[_frame], &destRect);
+    SDL_DestroyTexture(object);
+    SDL_DestroyTexture(fobject);
+    //SDL_RenderCopy(Game::renderer, objectTexture[0], &marioRect[_frame], &destRect);
+
+
+//    if (right >=0) if (xvel >=0) SDL_RenderCopy(Game::renderer, objectTexture, &marioRect[_frame], &destRect);
+    //if (left >=0) if (xvel <= 0) SDL_RenderCopy(Game::renderer, fobjectTexture, &marioRect[_frame], &destRect);
+    //SDL_DestroyTexture(objectTexture);
+    //SDL_DestroyTexture(fobjectTexture);
+    //objectTexture = NULL;
+    //std::cout<< objectTexture << std::endl;
 }
 
 void GameObject::InputHandle(SDL_Event &e){
@@ -54,7 +76,7 @@ void GameObject::InputHandle(SDL_Event &e){
             case SDLK_RIGHT:
                 xvel += speedX; left = -1; right = 1; break;
             case SDLK_SPACE:
-                if (onGround) space = 16; break;// yvel -= speedY * 8; break;
+                {if (onGround) space = 16; break;}
         }
     }
     else if (e.type == SDL_KEYUP){
@@ -78,6 +100,7 @@ void GameObject::InputHandle(SDL_Event &e){
 
 
 void GameObject::Move(){
+
     xpos += xvel;
     if (xpos < 0 || xpos + destRect.w > 7120 || CheckX()) xpos -= xvel;
 
@@ -97,9 +120,8 @@ void GameObject::LoadAnimation(){
         marioRect[i].w = 24;
         marioRect[i].h = 32;
     }
-
-    fobjectTexture = TextureManager::LoadTexture("assets/fmarioall.png");
 }
+
 void GameObject::ApplyAnimation(){
     if (xvel != 0 && onGround) {
         if (frame >= 4.0) frame = 0;
@@ -141,6 +163,7 @@ bool GameObject::CheckY(){
 
     y1 = ypos / 32;
     y2 = (ypos + destRect.h - 1) / 32;
+
     if (yvel > 0) {
         if (Map::level_1[y2][x1] != 0 || Map::level_1[y2][x2] != 0) {
             onGround = true;
@@ -164,7 +187,7 @@ void GameObject::Physics(){
             ypos += 32;
             space = 0;
         }
-        space --;
+        else space --;
     }
     ypos += speedY * 2;
     int x1, x2, y1, y2;
@@ -177,6 +200,7 @@ void GameObject::Physics(){
         if (Map::level_1[y2][x1] != 0 || Map::level_1[y2][x2] != 0) {
             ypos -= speedY * 2;
             onGround = true;
+            space = 0;
         }
         else onGround = false;
     {

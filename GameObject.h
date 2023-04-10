@@ -1,7 +1,6 @@
 #pragma once
 #include "Game.h"
 #include "Map.h"
-
 class GameObject {
 public:
     GameObject(const char* file, int x, int y);
@@ -20,7 +19,6 @@ public:
     void Physics();
     bool CheckX();
     bool CheckY();
-    bool Gravity();
     int surfaceX, surfaceY;
     int x_map, y_map;
     void CenterMapIndex();
@@ -29,12 +27,11 @@ public:
 
 private:
     int xpos, ypos, xvel, yvel;
-    int up, left, right, space;
+    int left, right, space;
     int gravity = 10;
-
+    //SDL_Texture* object = NULL;
     bool onGround, jumped = false;
-    SDL_Texture* objectTexture = NULL;
-    SDL_Texture* fobjectTexture = NULL;
+    //std::vector<SDL_Texture*> objectTexture;
 
     SDL_Rect srcRect, destRect, mapRect;
     SDL_Rect marioRect[4];

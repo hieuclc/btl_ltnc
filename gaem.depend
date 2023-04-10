@@ -1,10 +1,9 @@
 # depslib dependency file v1.0
-1681042064 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\main.cpp
+1681110707 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\main.cpp
 	<iostream>
 	<stdio.h>
 	<SDL.h>
 	<SDL_image.h>
-	<SDL_mixer.h>
 	"Game.h"
 	"Music.h"
 
@@ -52,12 +51,13 @@
 1679297325 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\ltexture.cpp
 	"LTexture.h"
 
-1681022493 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\game.h
+1681095430 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\game.h
 	<SDL.h>
 	<SDL_image.h>
 	<stdio.h>
+	<vector>
 
-1681037013 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\game.cpp
+1681111142 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\game.cpp
 	"Game.h"
 	"TextureManager.h"
 	"GameObject.h"
@@ -66,39 +66,39 @@
 	"Background.h"
 	<iostream>
 
-1681036858 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\texturemanager.cpp
+1681109279 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\texturemanager.cpp
 	"TextureManager.h"
 
-1681025329 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\texturemanager.h
+1681109279 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\texturemanager.h
 	"Game.h"
 	"GameObject.h"
 	"Enemy.h"
 
-1681038405 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\gameobject.h
+1681109962 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\gameobject.h
 	"Game.h"
 	"Map.h"
 
-1681042029 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\gameobject.cpp
+1681112376 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\gameobject.cpp
 	"GameObject.h"
 	"TextureManager.h"
 	"Map.h"
-	<iostream>
 
-1681034560 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\map.h
+1681111666 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\map.h
 	"Game.h"
+	<string>
 
-1681042064 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\map.cpp
+1681112414 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\map.cpp
 	"Map.h"
 	"TextureManager.h"
 	<iostream>
 
-1681035384 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\enemy.cpp
+1681110707 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\enemy.cpp
 	"Enemy.h"
 	"TextureManager.h"
 	"GameObject.h"
 	<iostream>
 
-1681022726 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\enemy.h
+1681111628 c:\users\hieu1\onedrive\desktop\sdl_final\gaem\enemy.h
 	"Game.h"
 	"GameObject.h"
 

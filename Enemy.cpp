@@ -4,7 +4,7 @@
 #include <iostream>
 const int speedX = 2, speedY = 2;
 Enemy::Enemy(const char* file, int x, int y){
-    enemyTexture = TextureManager::LoadTexture(file);
+    //enemyTexture.push_back(TextureManager::LoadTexture(file));
     xpos = x;
     ypos = y;
     srcRect.x = srcRect.y = 0;
@@ -39,14 +39,16 @@ void Enemy::Move(){
 
 }
 void Enemy::Update(){
-
     destRect.w = destRect.h = 32;
     destRect.x = xpos - x_map;
     destRect.y = ypos;
  }
 void Enemy::Render(){
-
+    SDL_Texture* enemyTexture = TextureManager::LoadTexture("assets/goombas.png");
     SDL_RenderCopy(Game::renderer, enemyTexture, &goombas[_frame], &destRect);
+    SDL_DestroyTexture(enemyTexture);
+    //SDL_RenderCopy(Game::renderer, enemyTexture[0], &goombas[_frame], &destRect);
+
 }
 SDL_Rect Enemy::GetRect(){
     return destRect;
