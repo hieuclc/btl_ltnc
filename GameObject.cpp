@@ -3,8 +3,7 @@
 #include "Map.h"
 #include <iostream>
 int temp = 0;
-SDL_RendererFlip flip;
-bool dead = false;
+
 GameObject::GameObject(const char* file, int x, int y){
     //objectTexture.push_back(TextureManager::LoadTexture(file));
     xpos = x;
@@ -25,19 +24,23 @@ GameObject::GameObject(const char* file, int x, int y){
     left = space = -1;
     right = 0;
     frame = 0;
-    //objectTexture.push_back(TextureManager::LoadTexture("assets/fmarioall.png"));
-
+    dead = false;
+    flip = SDL_FLIP_NONE;
+    dead_ani = 5;
+    life = 3;
+    bounce = 8;
+    playing = true;
+    won = false;
 }
 
-GameObject::~GameObject(){
-
-};
+GameObject::~GameObject(){};
 
 void GameObject::Update(){
     destRect.h = srcRect.h;
     destRect.w = 24;
-//    destRect.x = xpos;
-//    destRect.y = ypos;
+    destRect.x = xpos - x_map;
+    destRect.y = ypos - y_map;
+    if (xpos > 6152) won = true;
 
     // destRect.x = xpos - x_map;
     // destRect.y = ypos - y_map;
@@ -105,33 +108,59 @@ void GameObject::InputHandle(SDL_Event &e){
 
 void GameObject::Move(){
 
-    SDL_Texture* object = TextureManager::LoadTexture("assets/marioall.png");
-    
-    if (xvel != 0 && onGround) {
-        _frame++;
+    if (!dead) {
+        SDL_Texture* object = TextureManager::LoadTexture("assets/marioall.png");
+        if (xvel != 0 && onGround) {
+            _frame++;
         if (xvel > 0) flip = SDL_FLIP_NONE;
         else flip = SDL_FLIP_HORIZONTAL;
-        std::cout << xvel << std::endl;
+        }
+
+        if (_frame >= 4 && onGround) _frame = 0;
+
+        if (!onGround && xvel != 0) {
+            _frame = 4;
+            if (xvel > 0) flip = SDL_FLIP_NONE;
+            else flip = SDL_FLIP_HORIZONTAL;
+        }
+
+
+
+        SDL_RenderCopyEx(Game::renderer, object, &marioRect[_frame], &destRect, 0, NULL, flip);
+        SDL_DestroyTexture(object);
+        object = NULL;
+
+        xpos += xvel;
+        if (xpos < 0 || xpos + destRect.w > 7120 || CheckX()) xpos -= xvel;
+
+        if (ypos < 0 || ypos + destRect.h > Game::SCREEN_HEIGHT || CheckY()) {
+            ypos -= yvel;
+        }
+
     }
-    
-    if (_frame >= 4 && onGround) _frame = 0;
+    else {
+        _frame = 5;
+        //if (space > 0) space = -1;;
+        SDL_Texture* object = TextureManager::LoadTexture("assets/marioall.png");
+        SDL_RenderCopyEx(Game::renderer, object, &marioRect[_frame], &destRect, 0, NULL, flip);
+        SDL_DestroyTexture(object);
+        object = NULL;
+        if (dead_ani > 0) {
+            ypos -= 16;
+            dead_ani--;
+        }
 
-    if (!onGround && xvel != 0) {
-        _frame = 4;
-        if (xvel > 0) flip = SDL_FLIP_NONE;
-        else flip = SDL_FLIP_HORIZONTAL;
-    } 
-    destRect.x = xpos - x_map;
-    destRect.y = ypos - y_map;
+        SDL_Delay(1);
+        ypos += 2;
+        if (ypos + destRect.h >= Game::SCREEN_HEIGHT) {
+            dead = false;
+            //life--;
+            dead_ani = 5;
+            playing = false;
+            xpos = 96;
+            ypos = 96;
+        }
 
-    SDL_RenderCopyEx(Game::renderer, object, &marioRect[_frame], &destRect, 0, NULL, flip);
-    SDL_DestroyTexture(object);
-
-    xpos += xvel;
-    if (xpos < 0 || xpos + destRect.w > 7120 || CheckX()) xpos -= xvel;
-
-    if (ypos < 0 || ypos + destRect.h > Game::SCREEN_HEIGHT || CheckY()) {
-        ypos -= yvel;
     }
 
 }
@@ -140,7 +169,7 @@ SDL_Rect GameObject::GetRect(){
 }
 
 void GameObject::LoadAnimation(){
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 6; i++) {
         marioRect[i].x = i * 24;
         marioRect[i].y = 0;
         marioRect[i].w = 24;
@@ -215,7 +244,9 @@ void GameObject::Physics(){
         }
         else space --;
     }
+
     ypos += speedY * 2;
+
     int x1, x2, y1, y2;
     x1 = xpos / 32;
     x2 = (xpos + destRect.w - 1) / 32;
@@ -247,5 +278,27 @@ void GameObject::CenterMapIndex(){
 }
 
 
+bool GameObject::DeadCheck(SDL_Rect &enemyRect){
+    return TextureManager::PlayerCollisionChecker(destRect, enemyRect);
 
+}
 
+int GameObject::GetX(){
+    return xpos;
+}
+
+bool GameObject::Jumped(SDL_Rect &enemyRect){
+    if (ypos <= enemyRect.y - 1) return true;
+    else return false;
+}
+
+void GameObject::Bounce(){
+    space = 16;
+}
+
+void GameObject::win(){
+    for (int i = 0; i < 10; i++) {
+        xpos += 32;
+        //SDL_Delay(1);
+    }
+}

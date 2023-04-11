@@ -4,7 +4,9 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
+#include <SDL_ttf.h>
 #include <vector>
+#include <string>
 class Game {
 private:
     bool isRunning;
@@ -25,6 +27,8 @@ public:
         return isRunning;
     };
     static SDL_Renderer* renderer;
+    int life;
+    int score = 0;
 };
 
 #endif // Game_h

@@ -22,16 +22,24 @@ public:
     int surfaceX, surfaceY;
     int x_map, y_map;
     void CenterMapIndex();
-
-
-
+    bool dead;
+    int dead_ani;
+    int life;
+    bool check = false;
+    bool playing;
+    bool DeadCheck(SDL_Rect &enemyRect);
+    int GetX();
+    bool Jumped(SDL_Rect &enemyRect);
+    void Bounce();
+    bool won;
+    void win();
 private:
     int xpos, ypos, xvel, yvel;
     int left, right, space;
+    int bounce;
     int gravity = 10;
-    //SDL_Texture* object = NULL;
-    bool onGround, jumped = false;
-    //std::vector<SDL_Texture*> objectTexture;
+    SDL_RendererFlip flip;
+    bool onGround;
 
     SDL_Rect srcRect, destRect, mapRect;
     SDL_Rect marioRect[4];

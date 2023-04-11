@@ -12,9 +12,7 @@ Enemy::Enemy(const char* file, int x, int y){
     srcRect.w = 96;
     xvel += speedX;
     yvel += speedY;
-}
-
-void Enemy::Goombas(){
+    dead = false;
     for (int j = 0; j < 3; j++) {
         goombas[j].x = 32 * j;
         goombas[j].y = 0;
@@ -23,6 +21,7 @@ void Enemy::Goombas(){
 
     i = 0;
 }
+
 Enemy::~Enemy(){};
 
 void Enemy::Move(){
@@ -47,6 +46,7 @@ void Enemy::Render(){
     SDL_Texture* enemyTexture = TextureManager::LoadTexture("assets/goombas.png");
     SDL_RenderCopy(Game::renderer, enemyTexture, &goombas[_frame], &destRect);
     SDL_DestroyTexture(enemyTexture);
+    enemyTexture = NULL;
     //SDL_RenderCopy(Game::renderer, enemyTexture[0], &goombas[_frame], &destRect);
 
 }

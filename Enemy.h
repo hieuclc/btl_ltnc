@@ -14,8 +14,8 @@ public:
     void Physics();
     void SetMap(const int &x);
     int x_map;
-    void Goombas();
     int GetX();
+    bool dead;
 private:
     int xpos, ypos;
     float i = 0;
