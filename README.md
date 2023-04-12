@@ -17,5 +17,7 @@ Kĩ thuật sử dụng:
   - Kĩ thuật Tile map
 
 Tham khảo:
- - https://lazyfoo.net/tutorials/SDL/index.php
+ - Lazyfoo: https://lazyfoo.net/tutorials/SDL/index.php
  - Kênh Youtube Phát triển phần mềm 123AZ, Let's Make Games
+
+Demo: https://drive.google.com/file/d/1ySVKoCL46_qetLlwXNBFWtXhP41-J0lh/view?usp=sharing
