@@ -136,7 +136,7 @@ void GameObject::Move(){
         if (ypos < 0 || ypos + destRect.h > Game::SCREEN_HEIGHT || CheckY()) {
             ypos -= yvel;
         }
-
+    std::cout << xpos << ' ' << ypos << std::endl;
     }
     else {
         _frame = 5;
@@ -146,13 +146,13 @@ void GameObject::Move(){
         SDL_DestroyTexture(object);
         object = NULL;
         if (dead_ani > 0) {
-            ypos -= 16;
+            ypos -= 32;
             dead_ani--;
         }
 
-        SDL_Delay(1);
-        ypos += 2;
-        if (ypos + destRect.h >= Game::SCREEN_HEIGHT) {
+        //SDL_Delay(10);
+        ypos += 1;
+        if (ypos >= Game::SCREEN_HEIGHT + 64) {
             dead = false;
             //life--;
             dead_ani = 5;
@@ -162,7 +162,6 @@ void GameObject::Move(){
         }
 
     }
-    std::cout << xpos << ypos << std::endl;
 
 }
 SDL_Rect GameObject::GetRect(){
@@ -286,6 +285,10 @@ bool GameObject::DeadCheck(SDL_Rect &enemyRect){
 
 int GameObject::GetX(){
     return xpos;
+}
+
+int GameObject::GetY(){
+    return ypos;
 }
 
 bool GameObject::Jumped(SDL_Rect &enemyRect){

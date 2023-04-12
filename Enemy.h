@@ -3,7 +3,7 @@
 #include "GameObject.h"
 class Enemy {
 public:
-    Enemy(const char* file, int x, int y, int _type);
+    Enemy(int x, int y, int _type);
     ~Enemy();
     void Move();
     void Update();
@@ -15,6 +15,7 @@ public:
     void SetMap(const int &x);
     int x_map;
     int GetX();
+    int GetY();
     bool dead;int type = 0;
 private:
     int xpos, ypos;
@@ -23,6 +24,6 @@ private:
     int xvel = 0, yvel = 0;
     SDL_Rect srcRect, destRect;
     SDL_Rect goombas[3];
-    
+
 
 };

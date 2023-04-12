@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include <iostream>
 const int speedX = 2, speedY = 2;
-Enemy::Enemy(const char* file, int x, int y, int _type){
+Enemy::Enemy(int x, int y, int _type){
     xpos = x;
     ypos = y;
     if (_type == 1) {
@@ -114,4 +114,7 @@ int Enemy::GetX(){
     return xpos;
 }
 
+int Enemy::GetY(){
+    return ypos;
+}
 

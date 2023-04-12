@@ -29,6 +29,7 @@ public:
     bool playing;
     bool DeadCheck(SDL_Rect &enemyRect);
     int GetX();
+    int GetY();
     bool Jumped(SDL_Rect &enemyRect);
     void Bounce();
     bool won;
