@@ -162,6 +162,7 @@ void GameObject::Move(){
         }
 
     }
+    std::cout << xpos << ypos << std::endl;
 
 }
 SDL_Rect GameObject::GetRect(){
@@ -297,8 +298,8 @@ void GameObject::Bounce(){
 }
 
 void GameObject::win(){
-    for (int i = 0; i < 10; i++) {
-        xpos += 32;
-        //SDL_Delay(1);
-    }
+//    for (int i = 0; i < 10; i++) {
+//        xpos += 32;
+//        //SDL_Delay(1);
+//    }
 }

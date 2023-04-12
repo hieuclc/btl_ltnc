@@ -3,23 +3,35 @@
 #include "GameObject.h"
 #include <iostream>
 const int speedX = 2, speedY = 2;
-Enemy::Enemy(const char* file, int x, int y){
-    //enemyTexture.push_back(TextureManager::LoadTexture(file));
+Enemy::Enemy(const char* file, int x, int y, int _type){
     xpos = x;
     ypos = y;
-    srcRect.x = srcRect.y = 0;
-    srcRect.h = 32;
-    srcRect.w = 96;
-    xvel += speedX;
-    yvel += speedY;
-    dead = false;
-    for (int j = 0; j < 3; j++) {
-        goombas[j].x = 32 * j;
-        goombas[j].y = 0;
-        goombas[j].h = goombas[j].w = 32;
+    if (_type == 1) {
+        srcRect.x = srcRect.y = 0;
+        srcRect.h = 32;
+        srcRect.w = 96;
+        xvel += speedX;
+        yvel += speedY;
+        dead = false;
+        for (int j = 0; j < 3; j++) {
+            goombas[j].x = 32 * j;
+            goombas[j].y = 0;
+            goombas[j].h = goombas[j].w = 32;
+        }
+
+        i = 0;
+        type = 1;
+    }
+    else if (_type == 2) {
+        srcRect.x = srcRect.y = 0;
+        srcRect.h = srcRect.w = 32;
+        dead = false;
+        destRect.x = xpos;
+        destRect.y = ypos;
+        destRect.h = destRect.w = 32;
+        type = 2;
     }
 
-    i = 0;
 }
 
 Enemy::~Enemy(){};
@@ -43,11 +55,18 @@ void Enemy::Update(){
     destRect.y = ypos;
  }
 void Enemy::Render(){
-    SDL_Texture* enemyTexture = TextureManager::LoadTexture("assets/goombas.png");
-    SDL_RenderCopy(Game::renderer, enemyTexture, &goombas[_frame], &destRect);
-    SDL_DestroyTexture(enemyTexture);
-    enemyTexture = NULL;
-    //SDL_RenderCopy(Game::renderer, enemyTexture[0], &goombas[_frame], &destRect);
+    if (type == 1) {
+        SDL_Texture* enemyTexture = TextureManager::LoadTexture("assets/goombas.png");
+        SDL_RenderCopy(Game::renderer, enemyTexture, &goombas[_frame], &destRect);
+        SDL_DestroyTexture(enemyTexture);
+        enemyTexture = NULL;
+    }
+    else if (type == 2) {
+        SDL_Texture* enemyTexture = TextureManager::LoadTexture("assets/coin.png");
+        SDL_RenderCopy(Game::renderer, enemyTexture, &srcRect, &destRect);
+        SDL_DestroyTexture(enemyTexture);
+        enemyTexture = NULL;
+    }
 
 }
 SDL_Rect Enemy::GetRect(){

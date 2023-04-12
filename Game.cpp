@@ -8,14 +8,9 @@
 #include <iostream>
 #include <vector>
 GameObject* player = NULL;
-//Enemy* enemy = NULL;
-//Enemy* enemy1 = NULL;
-//Enemy* enemy2 = NULL;
-//Enemy* enemy3 = NULL;
 std::vector <Enemy*> ene;
 Map* map;
-//Text* text;
-SDL_Renderer* Game::renderer = nullptr;
+SDL_Renderer* Game::renderer = NULL;
 int count = 0;
 SDL_Rect srcR, destR;
 bool specialCreation = false;
@@ -41,20 +36,30 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     player->LoadAnimation();
 
 
-    ene.push_back(new Enemy("assets/goombas.png",608,384));
-    //ene.push_back(new Enemy("assets/goombas.png",608,384));
-    ene.push_back(new Enemy("assets/goombas.png",300,384));
-    //ene.push_back(new Enemy("assets/goombas.png",15,384));
-    //ene.push_back(new Enemy("assets/goombas.png",15,384));
-    ene.push_back(new Enemy("assets/goombas.png",1384,384));
-    ene.push_back(new Enemy("assets/goombas.png",1672,384));
-    ene.push_back(new Enemy("assets/goombas.png",1864,384));
-    //ene.push_back(new Enemy("assets/goombas.png",5512,384));
-    ene.push_back(new Enemy("assets/goombas.png",5376,384));
-    ene.push_back(new Enemy("assets/goombas.png",5624,384));
+    ene.push_back(new Enemy("assets/goombas.png",608,384,1));
+    ene.push_back(new Enemy("assets/goombas.png",300,384,1));
+    ene.push_back(new Enemy("assets/goombas.png",1384,384,1));
+    ene.push_back(new Enemy("assets/goombas.png",1672,384,1));
+    ene.push_back(new Enemy("assets/goombas.png",1864,384,1));
+    ene.push_back(new Enemy("assets/goombas.png",2500,160,1));
+    ene.push_back(new Enemy("assets/goombas.png",5344,384,1));
+    ene.push_back(new Enemy("assets/goombas.png",5624,384,1));
 
-    ene.push_back(new Enemy("assets/goombas.png",2500,160));
 
+
+    ene.push_back(new Enemy("assets/coin.png",576,160,2));
+    ene.push_back(new Enemy("assets/coin.png",2592,160,2));
+    ene.push_back(new Enemy("assets/coin.png",2752,160,2));
+    ene.push_back(new Enemy("assets/coin.png",2880,384,2));
+    ene.push_back(new Enemy("assets/coin.png",3392,256,2));
+    ene.push_back(new Enemy("assets/coin.png",3456,256,2));
+    ene.push_back(new Enemy("assets/coin.png",3520,256,2));
+    ene.push_back(new Enemy("assets/coin.png",3456,160,2));
+    ene.push_back(new Enemy("assets/coin.png",4416,384,2));
+    ene.push_back(new Enemy("assets/coin.png",4608,384,2));
+    ene.push_back(new Enemy("assets/coin.png",2884,384,2));
+    ene.push_back(new Enemy("assets/coin.png",2884,384,2));
+    ene.push_back(new Enemy("assets/coin.png",3808,160,2));
 
 
 };
@@ -77,7 +82,6 @@ void Game::update(){
 
         specialCreation = true;
     }
-    //if (player->life == 0)
 
 
 };
@@ -86,22 +90,33 @@ void Game::render(){
     if (!player->won) {
     for (int i = 0; i < ene.size(); i++) {
         if (ene[i]->GetX() < player->x_map + 1000 && ene[i]->GetX() > player->x_map - 32) {
+            if (ene[i]->type == 1) {
+                ene[i]->Move();
+            }
             ene[i]->Render();
-            ene[i]->Move();
             ene[i]->SetMap(player->x_map);
             SDL_Rect r = ene[i]->GetRect();
             SDL_Rect pr = player->GetRect();
-            if(player->DeadCheck(r) && player->Jumped(r) && player->dead == false) {
-                delete ene[i];
-                //ene[i] = NULL;
-                ene.erase(ene.begin() + i);
-                player->Bounce();
-                score++;
+            if (ene[i] ->type == 1) {
+                if(player->DeadCheck(r) && player->Jumped(r) && player->dead == false) {
+                    delete ene[i];
+                    //ene[i] = NULL;
+                    ene.erase(ene.begin() + i);
+                    player->Bounce();
+                    score++;
 
-            }
+                }
             else if (TextureManager::PlayerCollisionChecker(pr, r) && !player->Jumped(r)) {
-                player->dead = true;
-                //ene.erase(ene.begin() + i);
+                    player->dead = true;
+                    //ene.erase(ene.begin() + i);
+                }
+            }
+            else if (ene[i]->type == 2) {
+                if (player->DeadCheck(r)){
+                    delete ene[i];
+                    ene.erase(ene.begin() + i);
+                    score++;
+                }
             }
         }
 
