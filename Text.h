@@ -5,9 +5,10 @@
 #include <string.h>
 class Text {
 public:
-    Text(const char* input, int& x, int& y, SDL_Color& color);
+    Text(const char* input, int& x, int& y, int& w, int& h, int& tsize, SDL_Color& color, TTF_Font* font);
     ~Text();
-    void Render();
+    SDL_Rect GetRect();
+
 private:
     int xpos, ypos;
     SDL_Rect srcRect, destRect;

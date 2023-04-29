@@ -5,7 +5,6 @@
 int temp = 0;
 
 GameObject::GameObject(const char* file, int x, int y){
-    //objectTexture.push_back(TextureManager::LoadTexture(file));
     xpos = x;
     ypos = y;
     xvel = 0;
@@ -26,9 +25,8 @@ GameObject::GameObject(const char* file, int x, int y){
     frame = 0;
     dead = false;
     flip = SDL_FLIP_NONE;
-    dead_ani = 5;
-    life = 3;
-    bounce = 8;
+    dead_ani = 1;
+    //bounce = 8;
     playing = true;
     won = false;
 }
@@ -136,7 +134,6 @@ void GameObject::Move(){
         if (ypos < 0 || ypos + destRect.h > Game::SCREEN_HEIGHT || CheckY()) {
             ypos -= yvel;
         }
-    std::cout << xpos << ' ' << ypos << std::endl;
     }
     else {
         _frame = 5;
@@ -146,19 +143,16 @@ void GameObject::Move(){
         SDL_DestroyTexture(object);
         object = NULL;
         if (dead_ani > 0) {
-            ypos -= 32;
+            ypos -= 64;
             dead_ani--;
         }
 
         //SDL_Delay(10);
         ypos += 1;
-        if (ypos >= Game::SCREEN_HEIGHT + 64) {
+        if (ypos >= Game::SCREEN_HEIGHT + 128) {
             dead = false;
-            //life--;
-            dead_ani = 5;
+            dead_ani = 1;
             playing = false;
-            xpos = 96;
-            ypos = 96;
         }
 
     }
@@ -298,6 +292,10 @@ bool GameObject::Jumped(SDL_Rect &enemyRect){
 
 void GameObject::Bounce(){
     space = 16;
+}
+void GameObject::SetPos(){
+    xpos = 96;
+    ypos = 96;
 }
 
 void GameObject::win(){

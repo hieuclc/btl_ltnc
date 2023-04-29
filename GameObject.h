@@ -3,6 +3,7 @@
 #include "Map.h"
 class GameObject {
 public:
+    GameObject();
     GameObject(const char* file, int x, int y);
     ~GameObject();
     void Update();
@@ -34,6 +35,7 @@ public:
     void Bounce();
     bool won;
     void win();
+    void SetPos();
 private:
     int xpos, ypos, xvel, yvel;
     int left, right, space;

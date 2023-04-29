@@ -16,7 +16,8 @@ public:
     int x_map;
     int GetX();
     int GetY();
-    bool dead;int type = 0;
+    bool dead;
+    int type = 0;
 private:
     int xpos, ypos;
     float i = 0;

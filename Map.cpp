@@ -61,23 +61,23 @@ Map::Map(){
 //     obstacleTex.push_back(TextureManager::LoadTexture("assets/castle_flag.png"));
 
 
-    files.push_back("assets/ground.png");
-    files.push_back("assets/brickred.png");
-    files.push_back("assets/pipe_left_bot.png");
-    files.push_back("assets/pipe_left_top.png");
-    files.push_back("assets/pipe_right_bot.png");
-    files.push_back("assets/pipe_right_top.png");
-    files.push_back("assets/ground2.png");
-    files.push_back("assets/end0.png");
-    files.push_back("assets/end0_dot.png");
-    files.push_back("assets/castle0_brick.bmp");
-    files.push_back("assets/castle0_center_left.bmp");
-    files.push_back("assets/castle0_center_right.bmp");
-    files.push_back("assets/castle0_top0.bmp");
-    files.push_back("assets/castle0_top1.png");
-    files.push_back("assets/castle0_center_center.bmp");
-    files.push_back("assets/castle0_center_center_top.bmp");
-    files.push_back("assets/castle_flag.png");
+//    files.push_back("assets/ground.png");
+//    files.push_back("assets/brickred.png");
+//    files.push_back("assets/pipe_left_bot.png");
+//    files.push_back("assets/pipe_left_top.png");
+//    files.push_back("assets/pipe_right_bot.png");
+//    files.push_back("assets/pipe_right_top.png");
+//    files.push_back("assets/ground2.png");
+//    files.push_back("assets/end0.png");
+//    files.push_back("assets/end0_dot.png");
+//    files.push_back("assets/castle0_brick.bmp");
+//    files.push_back("assets/castle0_center_left.bmp");
+//    files.push_back("assets/castle0_center_right.bmp");
+//    files.push_back("assets/castle0_top0.bmp");
+//    files.push_back("assets/castle0_top1.png");
+//    files.push_back("assets/castle0_center_center.bmp");
+//    files.push_back("assets/castle0_center_center_top.bmp");
+//    files.push_back("assets/castle_flag.png");
 
 
     for (int i = 0; i < 17; i++) {
