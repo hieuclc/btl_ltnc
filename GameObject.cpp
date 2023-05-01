@@ -29,7 +29,16 @@ GameObject::GameObject(const char* file, int x, int y){
     //bounce = 8;
     playing = true;
     won = false;
+
+    for (int i = 0; i < 6; i++) {
+        marioRect[i].x = i * 24;
+        marioRect[i].y = 0;
+        marioRect[i].w = 24;
+        marioRect[i].h = 32;
+    }
 }
+
+
 
 GameObject::~GameObject(){};
 
@@ -82,7 +91,7 @@ void GameObject::InputHandle(SDL_Event &e){
             case SDLK_RIGHT:
                 xvel += speedX; left = -1; right = 1; break;
             case SDLK_SPACE:
-                {if (onGround) space = 16; break;}
+                {if (onGround) space = 16;if (dead) space = 0; break;}
         }
     }
     else if (e.type == SDL_KEYUP){
@@ -137,7 +146,6 @@ void GameObject::Move(){
     }
     else {
         _frame = 5;
-        //if (space > 0) space = -1;;
         SDL_Texture* object = TextureManager::LoadTexture("assets/marioall.png");
         SDL_RenderCopyEx(Game::renderer, object, &marioRect[_frame], &destRect, 0, NULL, flip);
         SDL_DestroyTexture(object);
@@ -146,8 +154,6 @@ void GameObject::Move(){
             ypos -= 64;
             dead_ani--;
         }
-
-        //SDL_Delay(10);
         ypos += 1;
         if (ypos >= Game::SCREEN_HEIGHT + 128) {
             dead = false;
@@ -160,15 +166,6 @@ void GameObject::Move(){
 }
 SDL_Rect GameObject::GetRect(){
     return destRect;
-}
-
-void GameObject::LoadAnimation(){
-    for (int i = 0; i < 6; i++) {
-        marioRect[i].x = i * 24;
-        marioRect[i].y = 0;
-        marioRect[i].w = 24;
-        marioRect[i].h = 32;
-    }
 }
 
 void GameObject::ApplyAnimation(){

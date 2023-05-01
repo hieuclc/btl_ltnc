@@ -4,6 +4,7 @@
 class GameObject {
 public:
     GameObject();
+    void create(int x, int y);
     GameObject(const char* file, int x, int y);
     ~GameObject();
     void Update();
@@ -13,7 +14,6 @@ public:
     SDL_Rect GetRect();
     static const int speedX = 4, speedY = 4;
 
-    void LoadAnimation();
     int _frame = 0;
     float frame = 0;
     void ApplyAnimation();
@@ -36,14 +36,17 @@ public:
     bool won;
     void win();
     void SetPos();
+
+    bool onGround;
+    int space;
 private:
     int xpos, ypos, xvel, yvel;
-    int left, right, space;
+    int left, right;
     int bounce;
     int gravity = 10;
     SDL_RendererFlip flip;
-    bool onGround;
+
 
     SDL_Rect srcRect, destRect, mapRect;
-    SDL_Rect marioRect[4];
+    SDL_Rect marioRect[6];
 };

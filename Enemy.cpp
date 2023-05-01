@@ -59,13 +59,11 @@ void Enemy::Render(){
         SDL_Texture* enemyTexture = TextureManager::LoadTexture("assets/goombas.png");
         SDL_RenderCopy(Game::renderer, enemyTexture, &goombas[_frame], &destRect);
         SDL_DestroyTexture(enemyTexture);
-        enemyTexture = NULL;
     }
     else if (type == 2) {
         SDL_Texture* enemyTexture = TextureManager::LoadTexture("assets/coin.png");
         SDL_RenderCopy(Game::renderer, enemyTexture, &srcRect, &destRect);
         SDL_DestroyTexture(enemyTexture);
-        enemyTexture = NULL;
     }
 
 }

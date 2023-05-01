@@ -8,15 +8,19 @@
 #include "Menu.h"
 #include <iostream>
 #include <vector>
+#include <SDL_mixer.h>
 GameObject* player = NULL;
 std::vector <Enemy> ene;
-Enemy enemi = Enemy(608, 384, 1);
 Map* map;
 SDL_Renderer* Game::renderer = NULL;
 TTF_Font* font = NULL;
 int count = 0;
 SDL_Rect srcR, destR;
-
+Mix_Music* mainMusic = NULL;
+Mix_Music* deadMusic = NULL;
+Mix_Chunk* jump = NULL;
+int Die;
+Uint32 startTicks = 0;
 Game::Game(){
 }
 Game::~Game(){
@@ -24,21 +28,22 @@ Game::~Game(){
 }
 void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen){
 
-    if (SDL_Init(SDL_INIT_EVERYTHING) == 0 && TTF_Init() == 0) {
+    if (SDL_Init(SDL_INIT_EVERYTHING) == 0 && TTF_Init() == 0 && Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) >= 0) {
 
         window = SDL_CreateWindow(title, xpos, ypos, width, height, fullscreen);
         renderer = SDL_CreateRenderer(window, -1, 0);
         SDL_SetRenderDrawColor(renderer, 3, 173, 252, 255);
-
         isRunning = true;
     }
     else isRunning = false;
     player = new GameObject("assets/marioall.png", 96, 384);
     map = new Map();
     font =  TTF_OpenFont("assets/font.ttf", 20);
-    player->LoadAnimation();
     canPlay = false;
     _quit = false;
+     mainMusic = Mix_LoadMUS("assets/sounds/bkg_music.wav");
+    deadMusic = Mix_LoadMUS("assets/sounds/death.wav");
+    jump = Mix_LoadWAV("assets/sounds/jump.wav");
 };
 
 void Game::load(){
@@ -71,6 +76,11 @@ void Game::load(){
     ene.push_back(Enemy(4064,256,2));
     ene.push_back(Enemy(4864,256,2));
     ene.push_back(Enemy(5440,256,2));
+
+    Mix_PlayMusic(mainMusic, -1);
+    Die = 0;
+    startTicks = 0;
+    player->dead = false;
 }
 
 void Game::menu(){
@@ -143,16 +153,23 @@ void Game::handleEvents(){
     }
     else {
         player->InputHandle(e);
-
+        if (player->space == 16) {
+            Mix_PlayChannel(-1, jump, 0);
+        }
     }
 
 };
 void Game::update(){
+    if (Die < 2) Die = player->dead;
     player->Update();
     for (int i = 0; i < ene.size(); i++) {ene[i].Update();}
+    if (Die == 1) {
+        if (Mix_PlayingMusic()) Mix_HaltMusic();
+        Mix_PlayMusic(deadMusic, 0);
+        Die = 2;
+    }
 };
 void Game::render(){
-    //std::cout << &enemi << std::endl;
     SDL_RenderClear(renderer);
     if (!player->won) {
     int _size = ene.size();
@@ -199,7 +216,7 @@ void Game::render(){
         player->ApplyAnimation();
         player->Move();
         player->CenterMapIndex();
-        player->Render();
+
         map->DrawMap();
         map->SetMap(player->x_map);
 
@@ -215,30 +232,46 @@ void Game::render(){
     }
 };
 void Game::die(){
-    if (player->playing == false) {
-        isRunning = false;
-        player->playing = true;
-        life--;
-        player->SetPos();
+    if (Die == 2) {
+        startTicks = SDL_GetTicks();
+        Die = 3;
+        std::cout << startTicks << std::endl;
+    }
+
+
+    if (Die == 3) {
+        std::cout << SDL_GetTicks() - startTicks << std::endl;
+        if (SDL_GetTicks() - startTicks >= 4000) {
+            Die = -1;
+            if (player->playing == false) {
+                if (true) {
+                    isRunning = false;
+                    player->playing = true;
+                    life--;
+                    player->SetPos();
+                }
+            }
+        }
     }
 }
 
 void Game::clean(){
 
-    TTF_CloseFont(font);
+ TTF_CloseFont(font);
     font = NULL;
-    free(map);
-    free(player);
-    map = NULL;
-    player = NULL;
-    IMG_Quit();
-    SDL_Quit();
-    TTF_Quit();
+    //free(map);
+//    free(player);
+//    //map = NULL;
+//    player = NULL;
+
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     window = NULL;
     renderer = NULL;
     for (int i = 0; i < ene.size(); i++) ene.erase(ene.begin() + i);
+    IMG_Quit();
+    SDL_Quit();
+    TTF_Quit();
 
 };
 
@@ -249,4 +282,3 @@ void Game::end(){
     Text play = Text("Over!!!!!",x, y, w, h, tsize, color, font);
     SDL_RenderPresent(renderer);
 }
-

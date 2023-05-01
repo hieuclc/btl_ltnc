@@ -1,8 +1,8 @@
 #include "TextureManager.h"
 SDL_Texture* TextureManager::LoadTexture(const char* file){
     SDL_Texture* tex = IMG_LoadTexture(Game::renderer, file);
-
     return tex;
+
 }
 
 

@@ -23,7 +23,6 @@ Text::Text(const char* input, int& x, int& y, int& w, int& h, int& tsize, SDL_Co
     SDL_DestroyTexture(texture);
     texture = NULL;
 
-
 }
 
 Text::~Text(){};
