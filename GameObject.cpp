@@ -25,7 +25,7 @@ GameObject::GameObject(const char* file, int x, int y){
     frame = 0;
     dead = false;
     flip = SDL_FLIP_NONE;
-    dead_ani = 1;
+    dead_ani = 5;
     //bounce = 8;
     playing = true;
     won = false;
@@ -55,27 +55,6 @@ void GameObject::Update(){
 
 void GameObject::Render(){
 
-
-    // SDL_Texture* object = TextureManager::LoadTexture("assets/marioall.png");
-
-    // SDL_Texture* fobject = TextureManager::LoadTexture("assets/fmarioall.png");
-
-    // if (right >=0) if (xvel >=0) SDL_RenderCopy(Game::renderer, object, &marioRect[_frame], &destRect);
-    // if (left >=0) if (xvel <= 0) SDL_RenderCopy(Game::renderer, fobject, &marioRect[_frame], &destRect);
-    // SDL_DestroyTexture(object);
-    // SDL_DestroyTexture(fobject);
-
-
-
-    //SDL_RenderCopy(Game::renderer, objectTexture[0], &marioRect[_frame], &destRect);
-
-
-//    if (right >=0) if (xvel >=0) SDL_RenderCopy(Game::renderer, objectTexture, &marioRect[_frame], &destRect);
-    //if (left >=0) if (xvel <= 0) SDL_RenderCopy(Game::renderer, fobjectTexture, &marioRect[_frame], &destRect);
-    //SDL_DestroyTexture(objectTexture);
-    //SDL_DestroyTexture(fobjectTexture);
-    //objectTexture = NULL;
-    //std::cout<< objectTexture << std::endl;
 }
 
 void GameObject::InputHandle(SDL_Event &e){
@@ -151,13 +130,16 @@ void GameObject::Move(){
         SDL_DestroyTexture(object);
         object = NULL;
         if (dead_ani > 0) {
-            ypos -= 64;
+            ypos -= 16;
             dead_ani--;
         }
-        ypos += 1;
-        if (ypos >= Game::SCREEN_HEIGHT + 128) {
+        else ypos += 2;
+        if (ypos >= Game::SCREEN_HEIGHT - 32){
+            ypos -= speedY * 2;
+        }
+        if (ypos >= Game::SCREEN_HEIGHT + 512) {
             dead = false;
-            dead_ani = 1;
+            dead_ani = 5;
             playing = false;
         }
 

@@ -19,6 +19,8 @@ SDL_Rect srcR, destR;
 Mix_Music* mainMusic = NULL;
 Mix_Music* deadMusic = NULL;
 Mix_Chunk* jump = NULL;
+Mix_Chunk* mob = NULL;
+Mix_Chunk* coin = NULL;
 int Die;
 Uint32 startTicks = 0;
 Game::Game(){
@@ -44,6 +46,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
      mainMusic = Mix_LoadMUS("assets/sounds/bkg_music.wav");
     deadMusic = Mix_LoadMUS("assets/sounds/death.wav");
     jump = Mix_LoadWAV("assets/sounds/jump.wav");
+    mob = Mix_LoadWAV("assets/sounds/mob.wav");
+    coin = Mix_LoadWAV("assets/sounds/coin.wav");
 };
 
 void Game::load(){
@@ -190,6 +194,7 @@ void Game::render(){
                     ene[i].dead = true;
                     player->Bounce();
                     score++;
+                    Mix_PlayChannel(-1, mob, 0);
 
                 }
             else if (TextureManager::PlayerCollisionChecker(pr, r) && !player->Jumped(r) && ene[i].dead == false) {
@@ -200,6 +205,7 @@ void Game::render(){
                 if (player->DeadCheck(r)){
                     ene[i].dead = true;
                     score++;
+                    Mix_PlayChannel(-1, coin, 0);
                 }
             }
         }
@@ -221,7 +227,6 @@ void Game::render(){
         map->SetMap(player->x_map);
 
         SDL_RenderPresent(renderer);
-        std::cout << player << std::endl;
     }
     else {
         int x = 10, y = 10, w = 128, h = 32, tsize = 20;
@@ -240,7 +245,6 @@ void Game::die(){
 
 
     if (Die == 3) {
-        std::cout << SDL_GetTicks() - startTicks << std::endl;
         if (SDL_GetTicks() - startTicks >= 4000) {
             Die = -1;
             if (player->playing == false) {

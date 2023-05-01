@@ -54,7 +54,7 @@
 	<vector>
 	<string>
 
-1682957597 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\game.cpp
+1682958716 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\game.cpp
 	"Game.h"
 	"TextureManager.h"
 	"GameObject.h"
@@ -62,7 +62,7 @@
 	"Enemy.h"
 	"Background.h"
 	"Text.h"
-	"Music.h"
+	"Menu.h"
 	<iostream>
 	<vector>
 	<SDL_mixer.h>
@@ -79,7 +79,7 @@
 	"Game.h"
 	"Map.h"
 
-1682953398 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\gameobject.cpp
+1682959421 source:c:\users\hieu1\onedrive\desktop\sdl_final\gaem\gameobject.cpp
 	"GameObject.h"
 	"TextureManager.h"
 	"Map.h"
