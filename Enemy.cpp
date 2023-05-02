@@ -6,6 +6,7 @@ const int speedX = 2, speedY = 2;
 Enemy::Enemy(int x, int y, int _type){
     xpos = x;
     ypos = y;
+    time = false;
     if (_type == 1) {
         srcRect.x = srcRect.y = 0;
         srcRect.h = 32;
@@ -30,6 +31,24 @@ Enemy::Enemy(int x, int y, int _type){
         destRect.y = ypos;
         destRect.h = destRect.w = 32;
         type = 2;
+    }
+    else if (_type == 3) {
+        srcRect.x = srcRect.y = 0;
+        srcRect.h = srcRect.w = 32;
+        dead = false;
+        destRect.x = xpos;
+        destRect.y = ypos;
+        destRect.h = destRect.w = 32;
+        type = 3;
+    }
+    else if (_type == 4) {
+        srcRect.x = srcRect.y = 0;
+        srcRect.h = srcRect.w = 32;
+        dead = false;
+        destRect.x = xpos;
+        destRect.y = ypos;
+        destRect.h = destRect.w = 26;
+        type = 4;
     }
 
 }
@@ -56,12 +75,23 @@ void Enemy::Update(){
  }
 void Enemy::Render(){
     if (type == 1) {
-        SDL_Texture* enemyTexture = TextureManager::LoadTexture("assets/goombas.png");
+        if (time)  _frame = 2;
+        SDL_Texture* enemyTexture = TextureManager::LoadTexture("assets/images/goombas.png");
         SDL_RenderCopy(Game::renderer, enemyTexture, &goombas[_frame], &destRect);
         SDL_DestroyTexture(enemyTexture);
     }
     else if (type == 2) {
-        SDL_Texture* enemyTexture = TextureManager::LoadTexture("assets/coin.png");
+        SDL_Texture* enemyTexture = TextureManager::LoadTexture("assets/images/coin.png");
+        SDL_RenderCopy(Game::renderer, enemyTexture, &srcRect, &destRect);
+        SDL_DestroyTexture(enemyTexture);
+    }
+    else if (type == 3) {
+        SDL_Texture* enemyTexture = TextureManager::LoadTexture("assets/images/end0_flag.png");
+        SDL_RenderCopy(Game::renderer, enemyTexture, &srcRect, &destRect);
+        SDL_DestroyTexture(enemyTexture);
+    }
+    else if (type == 4) {
+        SDL_Texture* enemyTexture = TextureManager::LoadTexture("assets/images/heart.png");
         SDL_RenderCopy(Game::renderer, enemyTexture, &srcRect, &destRect);
         SDL_DestroyTexture(enemyTexture);
     }
@@ -116,3 +146,6 @@ int Enemy::GetY(){
     return ypos;
 }
 
+void Enemy::Flag(){
+    if (ypos < 352) ypos += 2;
+}

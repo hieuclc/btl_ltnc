@@ -36,6 +36,10 @@ public:
     void menu();
     void start();
     void die();
+    void blackScreen(){SDL_SetRenderDrawColor(renderer, 0,0,0,0);};
+    bool victory;
+    bool endMus;
+    bool close;
 };
 
 #endif // Game_h

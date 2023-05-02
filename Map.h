@@ -14,7 +14,6 @@ public:
 
 private:
     SDL_Rect src, dest;
-    //std::vector <SDL_Texture*> obstacleTex;
     int map[15][224];
     int xmap, ymap;
     int x_start = 0, y_start = 0;

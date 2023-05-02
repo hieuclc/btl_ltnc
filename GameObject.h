@@ -39,6 +39,8 @@ public:
 
     bool onGround;
     int space;
+    Uint32 _time = 0;
+    bool endtime = false;
 private:
     int xpos, ypos, xvel, yvel;
     int left, right;

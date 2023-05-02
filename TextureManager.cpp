@@ -28,3 +28,12 @@ bool TextureManager::PlayerCollisionChecker(SDL_Rect &playerR, SDL_Rect &enemyR)
     return true;
 
 };
+
+bool TextureManager::MouseCheck(int &x, int &y, SDL_Rect &rect){
+    int left = rect.x;
+    int right = rect.x + rect.w;
+    int top = rect.y;
+    int bot = rect.y + rect.h;
+    if (left <= x && x <= right) if (top <= y && y <= bot) return true;
+    return false;
+};

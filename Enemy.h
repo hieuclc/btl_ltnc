@@ -17,11 +17,14 @@ public:
     int GetX();
     int GetY();
     bool dead;
+    bool time;
     int type = 0;
+    void Flag();
+    int _frame = 0;
 private:
     int xpos, ypos;
     float i = 0;
-    int _frame = 0;
+
     int xvel = 0, yvel = 0;
     SDL_Rect srcRect, destRect;
     SDL_Rect goombas[3];

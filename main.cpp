@@ -19,34 +19,34 @@ int life = 3;
 int main(int argc, char* argv[])
 {
     Game game;
-    game.init("demo", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Game::SCREEN_WIDTH, Game::SCREEN_HEIGHT, false);
+    game.init("Mario", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Game::SCREEN_WIDTH, Game::SCREEN_HEIGHT, false);
+    while(!game.canPlay && !game._quit) {
+        game.menu();
+    }
     while(life-- && !game._quit) {
         game.life = life + 1;
-        //if (game._quit) break;
-        while(!game.canPlay && !game._quit) {
-            game.menu();
-        }
-        if (!game._quit) {
-            game.load();
-            game.start();
-            while (game.running()) {
-                frameStart = SDL_GetTicks();
-                game.handleEvents();
-                game.update();
-                game.render();
-                frameTime = SDL_GetTicks() - frameStart;
-                if (frameDelay > frameTime) {
-                    SDL_Delay(frameDelay - frameTime);
+        if (!game.victory) {
+            if (!game._quit) {
+                game.load();
+                game.start();
+                while (game.running() && !game.victory) {
+                    frameStart = SDL_GetTicks();
+                    game.handleEvents();
+                    game.update();
+                    game.render();
+                    frameTime = SDL_GetTicks() - frameStart;
+                    if (frameDelay > frameTime) {
+                        SDL_Delay(frameDelay - frameTime);
+                    }
+                    game.die();
                 }
-                game.die();
             }
         }
-    }
 
-        if (!game._quit) {
-            game.end();
-            SDL_Delay(10000);
-        }
+    }
+    game.blackScreen();
+    if (!game._quit) game.end();
+
     game.clean();
     return 0;
 }
