@@ -1,4 +1,4 @@
-# Bài tập lớn Lập trình nâng cao (INT2215 23)
+# Bài tập lớn môn Lập trình nâng cao (INT2215 23)
 ## Mario
 
 Thông tin sinh viên:
@@ -21,11 +21,16 @@ Kĩ thuật sử dụng:
 Cài đặt:
   - Bước 1: Tải mã nguồn về bằng cách nhấn vào Code->Download ZIP.
   - Bước 2: Tải và cài đặt Mingw32, thiết lập biến môi trường (Environment variable).
-  - Bước 3: Mở Command Prompt, nhập lệnh cd [đường dẫn vào thư mục trò chơi]. Sử dụng lệnh mingw32-make và gaem để chạy game.
+  - Bước 3: Mở Command Prompt, nhập các lệnh sau:
+  ```
+  cd [đường dẫn đến thư mục game]
+  mingw32-make
+  gaem
+  ```
 
 Tham khảo:
  - Bài giảng cô Trần Thị Minh Châu - giảng viên lớp INT2215 23.
- - Trang Web Lazyfoo: https://lazyfoo.net/tutorials/SDL/index.php
+ - Trang web [Lazyfoo](https://lazyfoo.net/tutorials/SDL/index.php).
  - Kênh Youtube Phát triển phần mềm 123AZ, Let's Make Games.
 
 Video demo: https://drive.google.com/file/d/1ySVKoCL46_qetLlwXNBFWtXhP41-J0lh/view?usp=sharing
