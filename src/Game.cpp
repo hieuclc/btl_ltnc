@@ -5,6 +5,8 @@
 #include "Enemy.h"
 #include "Text.h"
 #include <vector>
+
+#include <iostream>
 #include <SDL_mixer.h>
 
 int count = 0;
@@ -58,7 +60,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     background = TextureManager::LoadTexture("assets/images/background.png");
     surface = IMG_Load("assets/images/icon.png");
     SDL_SetWindowIcon(window, surface);
-    player = new GameObject("assets/marioall.png", 96, 384);
+    player = new GameObject(96, 384);
+    
     map = new Map();
     font =  TTF_OpenFont("assets/font.ttf", 20);
     sfont =  TTF_OpenFont("assets/font.ttf", 15);
@@ -88,6 +91,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     y += 64;
     w = 145;
     quit = new Text("Quit game",x , y, w, h, color, font);
+
+    int temp = 0;
+    highScore(temp);
 
 };
 
@@ -237,6 +243,20 @@ void Game::render(){
     Text text = Text(_score, x, y, w, h, color, font);
     text.Render();
 
+
+    std::ifstream file;
+    file.open("assets/highScore.txt");
+    file >> highestScore;
+    if (score >= highestScore) highScore(score);
+
+    temp = "Highest score: " + std::to_string(highestScore);
+    const char* hScore = temp.c_str();
+
+    x = 288;
+    w = 250;
+    Text _highScore = Text(hScore, x, y, w, h, color, font);
+    _highScore.Render();
+    
     for (int i = 0; i < life; i++) heart[i].Render();
 
     if (!player->won) {
@@ -387,7 +407,7 @@ void Game::end(){
     if (!close) Mix_PlayMusic(closeMusic, 0);
     if (victory) {
         while (SDL_GetTicks() - startTicks <= 10000) {
-            int x = 200, y = 240, w = 128, h = 36;
+            int x = 340, y = 210, w = 128, h = 36;
             SDL_Color color = {255,255,255};
             Text the_end = Text("You won!",x ,y, w, h, color, font);
             the_end.Render();
@@ -401,7 +421,7 @@ void Game::end(){
     }
     else {
         while (SDL_GetTicks() - startTicks <= 10000) {
-            int x = 200, y = 240, w = 128, h = 32;
+            int x = 340, y = 220, w = 128, h = 32;
             SDL_Color color = {255,255,255};
             Text the_end = Text("You lose!",x , y, w, h, color, font);
             the_end.Render();
@@ -409,4 +429,12 @@ void Game::end(){
         }
     }
 
+}
+
+void Game::highScore(int &score){
+    std::ofstream file;
+    file.open("assets/highScore.txt");
+    file.clear();
+    file << score;
+    file.close();
 }

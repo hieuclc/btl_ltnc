@@ -3,7 +3,7 @@
 #include "Map.h"
 int temp = 0;
 
-GameObject::GameObject(const char* file, int x, int y){
+GameObject::GameObject(int x, int y){
     xpos = x;
     ypos = y;
     xvel = 0;

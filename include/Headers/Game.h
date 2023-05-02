@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
+#include <fstream>
 #include <vector>
 #include <string>
 class Game {
@@ -39,6 +40,9 @@ public:
     bool victory;
     bool endMus;
     bool close;
+
+    int highestScore = 0;
+    void highScore(int &score);
 };
 
 #endif // Game_h

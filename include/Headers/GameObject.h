@@ -5,7 +5,7 @@ class GameObject {
 public:
     GameObject();
     void create(int x, int y);
-    GameObject(const char* file, int x, int y);
+    GameObject(int x, int y);
     ~GameObject();
     void Update();
     void Render();
