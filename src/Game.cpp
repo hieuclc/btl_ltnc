@@ -389,6 +389,7 @@ void Game::clean(){
     Mix_FreeChunk(coin);
 
     SDL_FreeSurface(surface);
+    SDL_DestroyTexture(background);
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     window = NULL;
