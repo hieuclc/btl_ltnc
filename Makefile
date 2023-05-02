@@ -1,5 +1,6 @@
 all:
-	g++ *.cpp -o gaem.exe \
-	-I"C:\Users\hieu1\OneDrive\Desktop\sdl_final\x86_64-w64-mingw32\include\SDL2" \
-	-L"C:\Users\hieu1\OneDrive\Desktop\sdl_final\x86_64-w64-mingw32\lib" \
+	g++ src/*.cpp -o gaem.exe \
+	-I"include\SDL2" \
+	-I"include\Headers" \
+	-L"lib" \
 	-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -mwindows
