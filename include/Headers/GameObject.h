@@ -36,6 +36,7 @@ public:
     bool won;
     void win();
     void SetPos();
+    void ResetVel();
 
     bool onGround;
     int space;

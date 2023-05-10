@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "TextureManager.h"
 #include "Map.h"
+#include <iostream>
 int temp = 0;
 
 GameObject::GameObject(int x, int y){
@@ -8,16 +9,20 @@ GameObject::GameObject(int x, int y){
     ypos = y;
     xvel = 0;
     yvel = 0;
+
     srcRect.h = 32;
     srcRect.w = 24 * 5;
     srcRect.x = 0;
     srcRect.y = 0;
+
     destRect.x = xpos;
     destRect.y = ypos;
     destRect.w = 24;
     destRect.h = 32;
+
     x_map = 0;
     y_map = 0;
+
     onGround = false;
     left = space = -1;
     right = 0;
@@ -48,14 +53,9 @@ void GameObject::Update(){
     if (xpos >= 6216) {
         won = true;
     }
-};
-
-void GameObject::Render(){
-
 }
 
 void GameObject::InputHandle(SDL_Event &e){
-
     if (!won) {
         if (e.type == SDL_KEYDOWN  && e.key.repeat == 0) {
             switch (e.key.keysym.sym) {
@@ -64,14 +64,14 @@ void GameObject::InputHandle(SDL_Event &e){
                 case SDLK_DOWN:
                     yvel += speedY; break;
                 case SDLK_LEFT:
-                    xvel -= speedX; left = 1; right = -1; break;
+                    xvel -= speedX; if (!Game::paused) {left = 1; right = -1;}; break;
                 case SDLK_RIGHT:
-                    xvel += speedX; left = -1; right = 1; break;
+                    xvel += speedX; if (!Game::paused) {left = -1; right = 1;}; break;
                 case SDLK_SPACE:
-                    {if (onGround) space = 16;if (dead) space = 0; break;}
+                    {if (onGround) space = 16; if (dead) space = 0; break;}
             }
         }
-        else if (e.type == SDL_KEYUP){
+        else if (e.type == SDL_KEYUP) {
             switch (e.key.keysym.sym) {
                 case SDLK_UP:
                     yvel += speedY * 8; break;
@@ -90,62 +90,63 @@ void GameObject::InputHandle(SDL_Event &e){
         xvel = 0;
         yvel = 0;
     }
-
-
 }
 
-
-void GameObject::Move(){
-
+void GameObject::Render(){
     if (!dead) {
         dead_ani = 8;
         SDL_Texture* object = TextureManager::LoadTexture("assets/images/marioall.png");
         if (xvel != 0 && onGround) {
-        if (xvel > 0) flip = SDL_FLIP_NONE;
-        else flip = SDL_FLIP_HORIZONTAL;
+            if (!Game::paused){
+                if (xvel > 0) flip = SDL_FLIP_NONE;
+                else flip = SDL_FLIP_HORIZONTAL;
+            }
         }
+
+        
 
         if (_frame >= 4 && onGround) _frame = 0;
 
         if (!onGround && xvel != 0) {
             _frame = 4;
-            if (xvel > 0) flip = SDL_FLIP_NONE;
-            else flip = SDL_FLIP_HORIZONTAL;
+            if (!Game::paused) {
+                if (xvel > 0) flip = SDL_FLIP_NONE;
+                else flip = SDL_FLIP_HORIZONTAL;
+            }
         }
-
-
 
         SDL_RenderCopyEx(Game::renderer, object, &marioRect[_frame], &destRect, 0, NULL, flip);
         SDL_DestroyTexture(object);
         object = NULL;
-
-        xpos += xvel;
-        if (xpos < 0 || xpos + destRect.w > 7120 || CheckX()) xpos -= xvel;
-
-        if (ypos < 0 || ypos + destRect.h > Game::SCREEN_HEIGHT || CheckY()) {
-            ypos -= yvel;
-        }
     }
     else {
+        xvel = 0;
         _frame = 5;
         space = 0;
         SDL_Texture* object = TextureManager::LoadTexture("assets/images/marioall.png");
         SDL_RenderCopyEx(Game::renderer, object, &marioRect[_frame], &destRect, 0, NULL, flip);
         SDL_DestroyTexture(object);
         object = NULL;
-        if (dead_ani > 0) {
-            ypos -= 16;
-            dead_ani--;
+        if (!Game::paused) {
+            if (dead_ani > 0) {
+                ypos -= 16;
+                dead_ani--;
+            }
+            ypos += 4;
+            if (ypos >= Game::SCREEN_HEIGHT + 64) {
+                dead = false;
+                playing = false;
+            }
         }
-         ypos += 1;
-        if (ypos >= Game::SCREEN_HEIGHT + 64) {
-            dead = false;
-            playing = false;
-        }
-
     }
-
 }
+
+void GameObject::Move(){
+    xpos += xvel;
+    if (xpos < 0 || xpos + destRect.w > 7120 || CheckX()) xpos -= xvel;
+    if (dead) xvel = 0;
+}
+
 SDL_Rect GameObject::GetRect(){
     return destRect;
 }
@@ -178,12 +179,12 @@ bool GameObject::CheckX(){
     y2 = (ypos + destRect.h - 1) / 32;
 
     if (xvel > 0) {
-        if (Map::level_1[y1][x2] != 0 || Map::level_1[y2][x2] != 0) {
+        if (Map::game_map[y1][x2] != 0 || Map::game_map[y2][x2] != 0) {
             return true;
         }
     }
     else if (xvel < 0) {
-        if (Map::level_1[y1][x1] != 0 || Map::level_1[y2][x1] != 0) {
+        if (Map::game_map[y1][x1] != 0 || Map::game_map[y2][x1] != 0) {
             return true;
         }
     }
@@ -200,18 +201,17 @@ bool GameObject::CheckY(){
     y2 = (ypos + destRect.h - 1) / 32;
 
     if (yvel > 0) {
-        if (Map::level_1[y2][x1] != 0 || Map::level_1[y2][x2] != 0) {
+        if (Map::game_map[y2][x1] != 0 || Map::game_map[y2][x2] != 0) {
             onGround = true;
             return true;
         }
     }
     else if (yvel < 0) {
-        if (Map::level_1[y1][x1] !=0 || Map::level_1[y1][x2] != 0) {
+        if (Map::game_map[y1][x1] != 0 || Map::game_map[y1][x2] != 0) {
             return true;
         }
     }
     return false;
-
 }
 
 
@@ -233,19 +233,28 @@ void GameObject::Physics(){
 
     y1 = ypos / 32;
     y2 = (ypos + destRect.h - 1) / 32;
-    {
-        if (Map::level_1[y2][x1] != 0 || Map::level_1[y2][x2] != 0) {
-            ypos -= speedY * 2;
-            onGround = true;
-            space = 0;
+        {
+            if (Map::game_map[y2][x1] != 0 || Map::game_map[y2][x2] != 0) {
+                ypos -= speedY * 2;
+
+                onGround = true;
+                space = 0;
+            }
+            else onGround = false;
+
+        {
+            if (Map::game_map[y1][x1] != 0 || Map::game_map[y1][x2] != 0) {
+                if (Map::game_map[y1][x1] == 18) {
+                    Map::game_map[y1][x1] = 0;
+                    
+                }
+                if (Map::game_map[y1][x2] == 18) {
+                    Map::game_map[y1][x2] = 0;
+                }
+                ypos += (16 - speedY * 2);
+                space = 0;
+            }
         }
-        else onGround = false;
-    {
-        if (Map::level_1[y1][x1] !=0 || Map::level_1[y1][x2] != 0) {
-            ypos += 16;
-            space = 0;
-        }
-    }
     }
 
 }
@@ -260,7 +269,6 @@ void GameObject::CenterMapIndex(){
 
 bool GameObject::DeadCheck(SDL_Rect &enemyRect){
     return TextureManager::PlayerCollisionChecker(destRect, enemyRect);
-
 }
 
 int GameObject::GetX(){
@@ -303,4 +311,8 @@ void GameObject::win(){
     SDL_RenderCopyEx(Game::renderer, object, &marioRect[_frame], &destRect, 0, NULL, SDL_FLIP_NONE);
     SDL_DestroyTexture(object);
     object = NULL;
+}
+
+void GameObject::ResetVel(){
+    xvel = 0;
 }

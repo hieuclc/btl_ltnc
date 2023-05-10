@@ -26,10 +26,13 @@ public:
     void render();
     void clean();
     bool _quit;
+    static bool paused;
+    bool getPausedState(){return paused;};
     bool running(){
         return isRunning;
     };
     static SDL_Renderer* renderer;
+    bool instructions; 
     bool canPlay;
     int life;
     int score = 0;
@@ -40,6 +43,13 @@ public:
     bool victory;
     bool endMus;
     bool close;
+    bool loop = true;
+    bool endGame = true;
+    bool canMove = true;
+    //bool tryAgain();
+    bool clicked = false;
+    bool loaded = false;
+    int map_no;
 
     int highestScore = 0;
     void highScore(int &score);
