@@ -103,8 +103,6 @@ void GameObject::Render(){
             }
         }
 
-        
-
         if (_frame >= 4 && onGround) _frame = 0;
 
         if (!onGround && xvel != 0) {
