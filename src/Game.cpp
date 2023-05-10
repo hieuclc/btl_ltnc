@@ -133,8 +133,8 @@ void Game::load(){
         ene.push_back(Enemy(5344,384,1));
         ene.push_back(Enemy(5624,384,1));
 
-
-
+        ene.push_back(Enemy(448,288,2));
+        ene.push_back(Enemy(480,288,2));
         ene.push_back(Enemy(576,160,2));
         ene.push_back(Enemy(2592,160,2));
         ene.push_back(Enemy(2752,160,2));
@@ -187,7 +187,6 @@ void Game::load(){
         ene.push_back(Enemy(4480,224,2));
         ene.push_back(Enemy(4448,224,2));
 
-
         ene.push_back(Enemy(2544,256,5));
         ene.push_back(Enemy(3440,256,5));
         ene.push_back(Enemy(3568,288,5));
@@ -206,10 +205,6 @@ void Game::load(){
     jump = Mix_LoadWAV("assets/sounds/jump.wav");
     mob = Mix_LoadWAV("assets/sounds/mob.wav");
     coin = Mix_LoadWAV("assets/sounds/coin.wav");
-
-    
-
-    
 
     Mix_PlayMusic(mainMusic, -1);
     Die = 0;
@@ -377,7 +372,6 @@ void Game::handleEvents(){
     SDL_Event e;
     if (canMove) SDL_PollEvent (&e);
     
-    
     if (e.type == SDL_QUIT) {
         isRunning = false;
         _quit = true;
@@ -416,8 +410,6 @@ void Game::handleEvents(){
             }
         }
     }
-    
-
 };
 void Game::update(){
     if (Die < 2) Die = player->dead;
@@ -439,10 +431,6 @@ void Game::render(){
         color = {255,255,255};
     }
 
-    
-
-    
-    
     std::string temp = "Score: " + std::to_string(score);
 
     const char* _score = temp.c_str();
@@ -547,8 +535,6 @@ void Game::render(){
 
     }
     else {
-
-
         if (!endMus){Mix_HaltMusic(); Mix_PlayMusic(endMusic, 0); endMus = true;}
 
         ene.back().Render();
